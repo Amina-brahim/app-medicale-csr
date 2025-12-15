@@ -14,8 +14,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "engines": {
-    "node": "18.x"
+  
+"engines": {
+    "node": "24.x"
   },
   "browserslist": {
     "production": [
