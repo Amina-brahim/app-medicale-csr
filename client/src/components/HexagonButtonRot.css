@@ -1,0 +1,34 @@
+.hexagon-button {
+    width: 100px; /* Width of the hexagon */
+    height: 100px; /* Height of the hexagon */
+    background-color: #3498db; /* Button color */
+    border: none; /* Remove border */
+    color: white; /* Text color */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    line-height: 1.2; /* Center text vertically */
+    transform: rotate(30deg); /* Rotate the button */
+    margin: 20px; /* Margin around button */
+}
+
+.hexagon-button::before,
+.hexagon-button::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    border-left: 50px solid transparent; /* Half of the width */
+    border-right: 50px solid transparent; /* Half of the width */
+}
+
+.hexagon-button::before {
+    bottom: 100%; /* Position at the top */
+    border-bottom: 28.87px solid #3498db; /* Adjust for height */
+}
+
+.hexagon-button::after {
+    top: 100%; /* Position at the bottom */
+    border-top: 28.87px solid #3498db; /* Adjust for height */
+}

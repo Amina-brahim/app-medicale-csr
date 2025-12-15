@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Test - Labo Response</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+        
+        .connection-status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .connected {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .panel h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .logs {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .log-entry {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .log-sent {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid #007bff;
+        }
+        
+        .log-received {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .log-error {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            color: #ff6b6b;
+        }
+        
+        .log-info {
+            background: rgba(108, 117, 125, 0.1);
+            border-left: 4px solid #6c757d;
+            color: #adb5bd;
+        }
+        
+        .timestamp {
+            color: #888;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .message-type {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .client-count {
+            text-align: center;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 Socket.IO Test Interface</h1>
+        <div class="subtitle">Server will always respond with <strong>"labo"</strong> to any message</div>
+        
+        <div id="connectionStatus" class="connection-status disconnected">
+            🔴 Disconnected from server
+        </div>
+        
+        <div class="dashboard">
+            <div class="panel">
+                <h3>📤 Send Messages</h3>
+                
+                <div class="form-group">
+                    <label for="messageInput">Chat Message:</label>
+                    <input type="text" id="messageInput" placeholder="Type any message..." value="Hello Server!">
+                    <button class="btn btn-primary" onclick="sendChatMessage()">Send Chat Message</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pingData">Ping Data (JSON):</label>
+                    <textarea id="pingData">{"type": "ping", "data": "test"}</textarea>
+                    <button class="btn btn-success" onclick="sendPing()">Send Ping</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customMessage">Custom Message (any format):</label>
+                    <textarea id="customMessage">{"message": "Custom test message"}</textarea>
+                    <button class="btn btn-primary" onclick="sendCustomMessage()">Send Any Message</button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-danger" onclick="disconnectSocket()">Disconnect</button>
+                    <button class="btn btn-success" onclick="connectSocket()">Connect</button>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h3>📥 Server Responses</h3>
+                <div class="logs" id="logContainer">
+                    <div class="log-entry log-info">
+                        <span class="timestamp">[--:--:--]</span>
+                        <span>Waiting for messages...</span>
+                    </div>
+                </div>
+                
+                <div class="client-count">
+                    Connected clients: <span id="clientCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket;
+        const serverUrl = window.location.origin;
+        
+        function connectSocket() {
+            // Disconnect existing socket if any
+            if (socket) {
+                socket.disconnect();
+            }
+            
+            // Create new socket connection
+            socket = io(serverUrl, {
+                transports: ['websocket', 'polling']
+            });
+            
+            // Socket event handlers
+            socket.on('connect', () => {
+                updateConnectionStatus(true);
+                addLog('Connected to server', 'info');
+            });
+            
+            socket.on('disconnect', (reason) => {
+                updateConnectionStatus(false);
+                addLog(`Disconnected: ${reason}`, 'info');
+            });
+            
+            socket.on('connect_error', (error) => {
+                addLog(`Connection error: ${error.message}`, 'error');
+            });
+            
+            socket.on('message', (data) => {
+                addLog(`Message: ${JSON.stringify(data)}`, 'received');
+            });
+            
+            socket.on('pong', (data) => {
+                addLog(`Pong: ${JSON.stringify(data)}`, 'received');
+            });
+            
+            socket.on('server response', (data) => {
+                addLog(`Response: ${JSON.stringify(data)}`, 'received');
+            });
+            
+            socket.on('clients', (count) => {
+                document.getElementById('clientCount').textContent = count;
+            });
+        }
+        
+        function disconnectSocket() {
+            if (socket) {
+                socket.disconnect();
+                addLog('Manually disconnected', 'info');
+            }
+        }
+        
+        function updateConnectionStatus(connected) {
+            const statusDiv = document.getElementById('connectionStatus');
+            if (connected) {
+                statusDiv.className = 'connection-status connected';
+                statusDiv.innerHTML = '🟢 Connected to server - Ready to send messages!';
+            } else {
+                statusDiv.className = 'connection-status disconnected';
+                statusDiv.innerHTML = '🔴 Disconnected from server';
+            }
+        }
+        
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `
+                <span class="timestamp">[${timestamp}]</span>
+                ${type === 'sent' ? '📤' : type === 'received' ? '📥' : 'ℹ️'}
+                <span class="message-type">${type.toUpperCase()}:</span>
+                ${message}
+            `;
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        function sendChatMessage() {
+            if (!socket || !socket.connected) {
+                addLog('Not connected to server!', 'error');
+                return;
+            }
+            
+            const message = document.getElementById('messageInput').value || 'Hello!';
+            const messageData = { message: message };
+            
+            socket.emit('chat message', messageData);
+            addLog(`Sent chat message: ${JSON.stringify(messageData)}`, 'sent');
+        }
+        
+        function sendPing() {
+            if (!socket || !socket.connected) {
+                addLog('Not connected to server!', 'error');
+                return;
+            }
+            
+            try {
+                const pingData = JSON.parse(document.getElementById('pingData').value || '{}');
+                socket.emit('ping', pingData);
+                addLog(`Sent ping: ${JSON.stringify(pingData)}`, 'sent');
+            } catch (error) {
+                addLog(`Invalid JSON: ${error.message}`, 'error');
+            }
+        }
+        
+        function sendCustomMessage() {
+            if (!socket || !socket.connected) {
+                addLog('Not connected to server!', 'error');
+                return;
+            }
+            
+            try {
+                const customData = JSON.parse(document.getElementById('customMessage').value || '{}');
+                socket.emit('any message', customData);
+                addLog(`Sent custom message: ${JSON.stringify(customData)}`, 'sent');
+            } catch (error) {
+                // If not JSON, send as string
+                const message = document.getElementById('customMessage').value;
+                socket.emit('any message', message);
+                addLog(`Sent custom message: ${message}`, 'sent');
+            }
+        }
+        
+        // Auto-connect on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            connectSocket();
+            
+            // Add some example messages
+            setTimeout(() => {
+                addLog('Try sending any message - the server will always respond with "labo"!', 'info');
+                addLog('Supported events: chat message, ping, any message', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

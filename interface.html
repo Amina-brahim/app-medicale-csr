@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problème d'accès base de données - Solution</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+            padding-right: 20px;
+        }
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        h3 {
+            color: #2980b9;
+            margin: 15px 0 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .code {
+            background: #2d3436;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        .problem {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #dc3545;
+            margin: 20px 0;
+        }
+        .solution {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+            margin: 20px 0;
+        }
+        .architecture {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .architecture img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+        .button:hover {
+            background: #2980b9;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .main-content, .sidebar {
+                width: 100%;
+                padding-right: 0;
+            }
+        }
+        .server-config {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Problème d'accès à la base de données</h1>
+            <p class="subtitle">Solution pour le partage réseau d'applications React</p>
+        </header>
+
+        <div class="content">
+            <div class="main-content">
+                <div class="section">
+                    <h2>Le problème</h2>
+                    <div class="problem">
+                        <p><strong>Les autres appareils peuvent accéder à l'application React mais pas à la base de données.</strong></p>
+                        <p>Ce problème se produit parce que votre application React fonctionne côté client (dans le navigateur) et essaie d'accéder directement à la base de données, ce qui n'est pas possible depuis d'autres machines pour des raisons de sécurité.</p>
+                    </div>
+
+                    <h3>Architecture actuelle problématique</h3>
+                    <div class="architecture">
+                        <svg width="100%" height="200" viewBox="0 0 800 200">
+                            <rect x="50" y="50" width="150" height="60" rx="10" fill="#fdbb2d" stroke="#2c3e50" />
+                            <text x="125" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">Appareil distant</text>
+                            <text x="125" y="105" text-anchor="middle" fill="#2c3e50">(Navigateur)</text>
+                            
+                            <line x1="200" y1="80" x2="350" y2="80" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="350,80 340,75 340,85" fill="#2c3e50" />
+                            
+                            <rect x="350" y="50" width="150" height="60" rx="10" fill="#3498db" stroke="#2c3e50" />
+                            <text x="425" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">Votre Machine</text>
+                            <text x="425" y="105" text-anchor="middle" fill="#2c3e50">(React)</text>
+                            
+                            <line x1="500" y1="80" x2="600" y2="80" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="600,80 590,75 590,85" fill="#2c3e50" />
+                            
+                            <rect x="600" y="50" width="150" height="60" rx="10" fill="#e74c3c" stroke="#2c3e50" />
+                            <text x="675" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">Base de</text>
+                            <text x="675" y="105" text-anchor="middle" fill="#2c3e50">données</text>
+                            
+                            <text x="275" y="75" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Accès possible</text>
+                            <text x="550" y="75" text-anchor="middle" fill="#e74c3c" font-weight="bold">✗ Accès bloqué</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>La solution</h2>
+                    <div class="solution">
+                        <p><strong>Créer une API serveur qui agit comme intermédiaire</strong> entre votre application React et la base de données.</p>
+                        <p>Votre application React enverra des requêtes à cette API, qui se chargera ensuite d'interagir avec la base de données.</p>
+                    </div>
+
+                    <h3>Architecture recommandée</h3>
+                    <div class="architecture">
+                        <svg width="100%" height="280" viewBox="0 0 800 280">
+                            <rect x="50" y="50" width="150" height="60" rx="10" fill="#fdbb2d" stroke="#2c3e50" />
+                            <text x="125" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">Appareil distant</text>
+                            <text x="125" y="105" text-anchor="middle" fill="#2c3e50">(Navigateur)</text>
+                            
+                            <line x1="200" y1="80" x2="300" y2="80" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="300,80 290,75 290,85" fill="#2c3e50" />
+                            
+                            <rect x="300" y="50" width="150" height="60" rx="10" fill="#3498db" stroke="#2c3e50" />
+                            <text x="375" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">Votre Machine</text>
+                            <text x="375" y="105" text-anchor="middle" fill="#2c3e50">(React)</text>
+                            
+                            <line x1="450" y1="80" x2="550" y2="80" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="550,80 540,75 540,85" fill="#2c3e50" />
+                            
+                            <rect x="550" y="50" width="150" height="60" rx="10" fill="#9b59b6" stroke="#2c3e50" />
+                            <text x="625" y="85" text-anchor="middle" fill="#2c3e50" font-weight="bold">API Serveur</text>
+                            <text x="625" y="105" text-anchor="middle" fill="#2c3e50">(Node.js/Express)</text>
+                            
+                            <line x1="700" y1="80" x2="750" y2="80" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="750,80 740,75 740,85" fill="#2c3e50" />
+                            
+                            <rect x="550" y="150" width="150" height="60" rx="10" fill="#e74c3c" stroke="#2c3e50" />
+                            <text x="625" y="185" text-anchor="middle" fill="#2c3e50" font-weight="bold">Base de</text>
+                            <text x="625" y="205" text-anchor="middle" fill="#2c3e50">données</text>
+                            
+                            <line x1="625" y1="110" x2="625" y2="150" stroke="#2c3e50" stroke-width="2" />
+                            <polygon points="625,150 620,140 630,140" fill="#2c3e50" />
+                            
+                            <text x="225" y="75" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Requête HTTP</text>
+                            <text x="500" y="75" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Requête HTTP</text>
+                            <text x="625" y="130" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Accès direct</text>
+                        </svg>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h3>Créez un serveur API avec Express</h3>
+                            <p>Créez un fichier <code>server.js</code> à la racine de votre projet :</p>
+                            <div class="code">
+                                const express = require('express');<br>
+                                const cors = require('cors');<br>
+                                const app = express();<br><br>
+
+                                // Middleware<br>
+                                app.use(cors());<br>
+                                app.use(express.json());<br><br>
+
+                                // Routes API<br>
+                                app.get('/api/data', (req, res) => {<br>
+                                &nbsp;&nbsp;// Code pour récupérer les données de la BD<br>
+                                &nbsp;&nbsp;res.json({ data: [...] });<br>
+                                });<br><br>
+
+                                app.post('/api/data', (req, res) => {<br>
+                                &nbsp;&nbsp;// Code pour ajouter des données à la BD<br>
+                                &nbsp;&nbsp;res.json({ success: true });<br>
+                                });<br><br>
+
+                                // Démarrer le serveur<br>
+                                const PORT = process.env.PORT || 5000;<br>
+                                app.listen(PORT, '0.0.0.0', () => {<br>
+                                &nbsp;&nbsp;console.log(`Serveur API démarré sur le port ${PORT}`);<br>
+                                });
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h3>Modifiez votre application React</h3>
+                            <p>Au lieu d'accéder directement à la base de données, envoyez des requêtes à votre API :</p>
+                            <div class="code">
+                                // Avant (accès direct)<br>
+                                // const data = await database.query('SELECT ...');<br><br>
+
+                                // Après (via API)<br>
+                                const response = await fetch('http://VOTRE-IP:5000/api/data');<br>
+                                const data = await response.json();
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h3>Démarrez le serveur API</h3>
+                            <p>Ajoutez un script dans votre <code>package.json</code> :</p>
+                            <div class="code">
+                                "scripts": {<br>
+                                &nbsp;&nbsp;"start": "PORT=4100 react-scripts start",<br>
+                                &nbsp;&nbsp;"server": "node server.js",<br>
+                                &nbsp;&nbsp;"dev": "concurrently \"npm run server\" \"npm start\""<br>
+                                }
+                            </div>
+                            <p>Puis exécutez : <code>npm run dev</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <h2>Ressources</h2>
+                
+                <div class="card">
+                    <h3>Documentation</h3>
+                    <p>Guide pour créer une API avec Express :</p>
+                    <a href="https://expressjs.com/" class="button" target="_blank">Express.js</a>
+                </div>
+
+                <div class="card">
+                    <h3>Middleware CORS</h3>
+                    <p>Essential pour autoriser les requêtes cross-origin :</p>
+                    <a href="https://www.npmjs.com/package/cors" class="button" target="_blank">Package CORS</a>
+                </div>
+
+                <div class="card">
+                    <h3>Concurrently</h3>
+                    <p>Pour exécuter React et le serveur en même temps :</p>
+                    <a href="https://www.npmjs.com/package/concurrently" class="button" target="_blank">Package Concurrently</a>
+                </div>
+
+                <div class="card">
+                    <h3>Exemple complet</h3>
+                    <p>Projet exemple React + Express :</p>
+                    <a href="https://github.com/facebook/create-react-app" class="button" target="_blank">Create React App</a>
+                </div>
+
+                <div class="note">
+                    <p><strong>Note :</strong> N'oubliez pas d'installer les dépendances nécessaires :</p>
+                    <div class="code">
+                        npm install express cors concurrently
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Solution d'accès à la base de données pour applications React partagées en réseau</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fonctionnalité interactive pour montrer la configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code');
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        const original = this.textContent;
+                        this.textContent = 'Copié !';
+                        setTimeout(() => {
+                            this.textContent = original;
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

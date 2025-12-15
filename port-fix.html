@@ -1,0 +1,380 @@
+# Créez un nouveau fichier avec le code HTML
+cat > fix-port.html << 'EOF'
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Erreur EADDRINUSE - Port 4600 utilisé</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        h3 {
+            color: #2980b9;
+            margin: 15px 0 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .code {
+            background: #2d3436;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #dc3545;
+            margin: 20px 0;
+        }
+        .solution {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+            margin: 20px 0;
+        }
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background: #2980b9;
+        }
+        .terminal {
+            background: #2d3436;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        .command {
+            color: #50fa7b;
+        }
+        .comment {
+            color: #8be9fd;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Erreur EADDRINUSE - Port 4600 déjà utilisé</h1>
+            <p class="subtitle">Solutions pour résoudre le problème de port déjà occupé</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Comprendre l'erreur</h2>
+                <div class="error">
+                    <p><strong>Error: listen EADDRINUSE: address already in use :::4600</strong></p>
+                    <p>Cette erreur signifie que le port 4600 que votre serveur tente d'utiliser est déjà occupé par un autre processus sur votre machine.</p>
+                </div>
+
+                <h3>Pourquoi cela arrive-t-il ?</h3>
+                <p>Plusieurs raisons peuvent causer cette erreur :</p>
+                <ul>
+                    <li>Une autre instance de votre serveur tourne déjà en arrière-plan</li>
+                    <li>Un autre programme utilise le port 4600</li>
+                    <li>Votre serveur précédent ne s'est pas correctement arrêté</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Solutions</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab(0)">Solution 1</div>
+                    <div class="tab" onclick="showTab(1)">Solution 2</div>
+                    <div class="tab" onclick="showTab(2)">Solution 3</div>
+                </div>
+
+                <div class="tab-content active">
+                    <h3>1. Trouver et tuer le processus utilisant le port</h3>
+                    <div class="terminal">
+                        <span class="command">lsof -ti:4600</span> <span class="comment"># Trouver le PID du processus utilisant le port 4600</span><br>
+                        <span class="command">kill -9 [PID]</span> <span class="comment"># Remplacer [PID] par l'ID du processus trouvé</span><br>
+                        <span class="command"># ou</span><br>
+                        <span class="command">npx kill-port 4600</span> <span class="comment"># Méthode plus simple si kill-port est installé</span>
+                    </div>
+                    <p>Une fois le processus terminé, redémarrez votre serveur.</p>
+                </div>
+
+                <div class="tab-content">
+                    <h3>2. Changer le port de votre serveur</h3>
+                    <p>Modifiez votre fichier <code>index.js</code> pour utiliser un port différent :</p>
+                    <div class="code">
+                        const PORT = process.env.PORT || 4601; // Changer le port<br>
+                        app.listen(PORT, '0.0.0.0', () => {<br>
+                        &nbsp;&nbsp;console.log(`Serveur démarré sur le port ${PORT}`);<br>
+                        });
+                    </div>
+                    <p>Ou définissez une variable d'environnement :</p>
+                    <div class="terminal">
+                        <span class="command">PORT=4601 npm start</span> <span class="comment"># Démarrage avec un port différent</span>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <h3>3. Utiliser un port dynamique</h3>
+                    <p>Modifiez votre code pour trouver automatiquement un port disponible :</p>
+                    <div class="code">
+                        const server = app.listen(0, '0.0.0.0', () => {<br>
+                        &nbsp;&nbsp;const port = server.address().port;<br>
+                        &nbsp;&nbsp;console.log(`Serveur démarré sur le port ${port}`);<br>
+                        });
+                    </div>
+                    <p>Cette méthode laisse le système choisir un port disponible automatiquement.</p>
+                </div>
+
+                <div class="note">
+                    <p><strong>Note :</strong> Si vous changez le port de votre serveur, n'oubliez pas de mettre à jour votre application React pour qu'elle se connecte au nouveau port.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Script de résolution automatique</h2>
+                <p>Créez un script pour résoudre automatiquement ce problème à l'avenir :</p>
+                
+                <div class="code">
+                    // kill-port.js<br>
+                    const { exec } = require('child_process');<br><br>
+                    
+                    exec('lsof -ti:4600', (err, stdout) => {<br>
+                    &nbsp;&nbsp;if (stdout) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;exec(`kill -9 ${stdout}`, () => {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(`Processus sur le port 4600 terminé: ${stdout}`);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Démarrer le serveur<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require('./index.js');<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;// Démarrer le serveur directement<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;require('./index.js');<br>
+                    &nbsp;&nbsp;}<br>
+                    });
+                </div>
+                
+                <p>Modifiez votre <code>package.json</code> pour utiliser ce script :</p>
+                <div class="code">
+                    "scripts": {<br>
+                    &nbsp;&nbsp;"start": "node kill-port.js",<br>
+                    &nbsp;&nbsp;"dev": "nodemon kill-port.js"<br>
+                    }
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Prévention</h2>
+                <p>Pour éviter que ce problème ne se reproduise :</p>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Toujours arrêter proprement votre serveur</h3>
+                        <p>Utilisez <code>Ctrl+C</code> pour arrêter votre serveur plutôt que de fermer le terminal brutalement.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Utiliser nodemon avec gestion des signaux</h3>
+                        <p>Nodemon peut mieux gérer le redémarrage et l'arrêt des processus.</p>
+                        <div class="terminal">
+                            <span class="command">npm install --save-dev nodemon</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Créer un script de nettoyage</h3>
+                        <p>Ajoutez un script "stop" à votre package.json :</p>
+                        <div class="code">
+                            "scripts": {<br>
+                            &nbsp;&nbsp;"stop": "fuser -k 4600/tcp || true"<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Solution pour l'erreur EADDRINUSE - Port 4600 déjà utilisé</p>
+        </footer>
+    </div>
+
+    <script>
+        function showTab(index) {
+            // Masquer tous les contenus d'onglet
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Afficher le contenu d'onglet sélectionné
+            tabContents[index].classList.add('active');
+            
+            // Mettre à jour les onglets actifs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabs[index].classList.add('active');
+        }
+        
+        // Fonction pour copier les commandes
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.terminal, .code');
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        const original = this.textContent;
+                        this.textContent = 'Copié !';
+                        setTimeout(() => {
+                            this.textContent = original;
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+EOF
+
+# Ouvrez le fichier dans le navigateur par défaut
+# Sur Linux:
+xdg-open fix-port.html
+# Sur Mac:
+open fix-port.html
+# Sur Windows:
+start fix-port.html

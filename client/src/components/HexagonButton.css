@@ -1,0 +1,38 @@
+/* src/HexagonButton.css */
+.hexagon {
+  position: relative;
+  width: 170px; /* Adjust size as needed */
+  height: 140px; /* 100px * (sqrt(3)/2) */
+  background-color: #135811; /* Hexagon color */
+  margin: 5px ;
+  padding: 2%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  clip-path: polygon(
+      50% 0%,
+      100% 25%,
+      100% 75%,
+      50% 100%,
+      0% 75%,
+      0% 25%
+  );
+  /*transform: rotate(30deg);  Rotate the button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 28px;
+  text-transform: capitalize;
+}
+
+.hexagon:hover {
+  background-color: #80ffc3;
+  color: black;
+  transform: scale(1.5);
+}
+
+.hexagon:active {
+  background-color: #18f2fa;
+  transform: scale(1);
+}
