@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.0d637d38.css",
-    "main.js": "/static/js/main.d4659379.js",
+    "main.css": "/static/css/main.3f18c81a.css",
+    "main.js": "/static/js/main.cb2da8b0.js",
     "static/media/logo_nse.png": "/static/media/logo_nse.1e4003f6ad1156d8c260.png",
     "index.html": "/index.html",
-    "main.0d637d38.css.map": "/static/css/main.0d637d38.css.map",
-    "main.d4659379.js.map": "/static/js/main.d4659379.js.map"
+    "main.3f18c81a.css.map": "/static/css/main.3f18c81a.css.map",
+    "main.cb2da8b0.js.map": "/static/js/main.cb2da8b0.js.map"
   },
   "entrypoints": [
-    "static/css/main.0d637d38.css",
-    "static/js/main.d4659379.js"
+    "static/css/main.3f18c81a.css",
+    "static/js/main.cb2da8b0.js"
   ]
 }

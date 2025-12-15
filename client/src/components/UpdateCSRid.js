@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Assuming the JSON data is fetched from an API or imported
-import data from './labo.json';
+
 
 function UpdateCSRid() {
   const [records, setRecords] = useState([]);

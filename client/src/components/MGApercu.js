@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { useNavigate } from "react-router-dom"
 import { Table } from 'react-table'
-import myData from './journal.json';
+
 import './style.css';
 //import { useTable, useBlockLayout, useResizeColumns } from 'react-table'
 import TableComponent from './TableComponent';
