@@ -3244,7 +3244,7 @@ th[data-column="service"] {
 }
 
 .Logo {
-  background-image: url(/home/synaptics/Essais/client/src/components/images/logo_csr.png);
+  background-image: url(./components/images/logo_csr.png);
 }
 
 .glow-on-hover {
