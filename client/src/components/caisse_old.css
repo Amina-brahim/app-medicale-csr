@@ -14,7 +14,7 @@
 }
 
 .Logo {
-  background-image: url(./images/logo_csr.png);
+  background-image: url(./logo_csr.png);
 }
 
 /* ============================  Progress Bar ============================== */
@@ -88,7 +88,7 @@
   flex-direction: column;
   width: 630px;
   background-color: #c4c4c4;
-  background-image: url(./images/logo_csr.png);
+  background-image: url(./logo_csr.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

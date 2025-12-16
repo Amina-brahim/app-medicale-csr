@@ -13,7 +13,7 @@ hover
 }
 
 /*.Logo {
-  background-image: url(./components/images/logo_csr.png);
+  background-image: url(./logo_csr.png);
 }*/
 .table{
   height: 50px;
@@ -386,7 +386,7 @@ hover
   flex-direction: column;
   width: 230px;
   background-color: #c4c4c4;
-  /*background-image: url(./components/images/logo_csr.png);
+  /*background-image: url(./logo_csr.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;*/
