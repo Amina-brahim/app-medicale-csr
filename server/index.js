@@ -109,6 +109,9 @@ let connectedUsers = new Map();
 
 // Configuration Socket.io
 const socketIO = require('socket.io')(http, {
+  path: '/socket.io/',
+  serveClient: false,
+  connectTimeout: 45000,
     cors: {
         origin: "*",
         methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
