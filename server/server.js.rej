@@ -1,0 +1,28 @@
+--- index.js.orig
++++ index.js
+@@ -58,6 +58,25 @@
+ app.use(express.json());
+ 
++// ====================================================================================
++// ROUTE DE TEST SOCKET.IO - AJOUTEZ CECI
++// ====================================================================================
++
++// Route pour tester Socket.IO handshake
++app.get('/socket.io/', (req, res) => {
++  console.log('📡 Handshake Socket.IO reçu:', req.query);
++  res.json({
++    success: true,
++    message: 'Socket.IO server is running',
++    sid: 'test_' + Date.now(),
++    upgrades: ['websocket', 'polling'],
++    pingInterval: 25000,
++    pingTimeout: 5000,
++    maxPayload: 1000000
++  });
++});
++
++// ====================================================================================
+ let users = [];
+ let Clients = [];
+ let FichierLaboOuvert = false;
+ 

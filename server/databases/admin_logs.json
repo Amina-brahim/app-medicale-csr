@@ -1,5 +1,13 @@
 [
   {
+    "id": 1765973138828.3154,
+    "timestamp": "2025-12-17T12:05:38.828Z",
+    "type": "server_start",
+    "user": "system",
+    "message": "Serveur démarré sur 192.168.1.20:4600",
+    "socketId": null
+  },
+  {
     "id": 1765970378542.4443,
     "timestamp": "2025-12-17T11:19:38.542Z",
     "type": "server_start",
@@ -3986,14 +3994,6 @@
   {
     "id": 1765449603708.154,
     "timestamp": "2025-12-11T10:40:03.708Z",
-    "type": "user_connection",
-    "user": "Amina",
-    "message": "Utilisateur connecté: Amina (Caisse)",
-    "socketId": null
-  },
-  {
-    "id": 1765449603688.9663,
-    "timestamp": "2025-12-11T10:40:03.688Z",
     "type": "user_connection",
     "user": "Amina",
     "message": "Utilisateur connecté: Amina (Caisse)",
