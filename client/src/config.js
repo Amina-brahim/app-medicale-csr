@@ -4,13 +4,13 @@ const config = {
   development: {
     apiUrl: 'http://localhost:4600',
     socketUrl: 'http://localhost:4600',
-    enableSockets: true
+    enableSockets: false
   },
   // Production
   production: {
     apiUrl: 'https://csr-serveur-backend.onrender.com',
     socketUrl: 'wss://csr-serveur-backend.onrender.com',
-    enableSockets: true
+    enableSockets: false
   }
 };
 

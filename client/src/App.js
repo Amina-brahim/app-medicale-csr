@@ -1,6 +1,6 @@
 // client/src/App.js - VERSION MODIFIÉE
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { socket } from './socket'; // <-- IMPORT MODIFIÉ ICI (supprime socketIO)
+import { socket } from './socket-fixed'; // <-- IMPORT MODIFIÉ ICI (supprime socketIO)
 
 // Import de tous vos composants
 import Home from "./components/Home"
