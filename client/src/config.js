@@ -1,15 +1,11 @@
-// src/config.js
+// src/config.js - Socket.IO DÉSACTIVÉ
 const config = {
-  // Développement
   development: {
     apiUrl: 'http://localhost:4600',
-    socketUrl: 'http://localhost:4600',
     enableSockets: false
   },
-  // Production
   production: {
     apiUrl: 'https://csr-serveur-backend.onrender.com',
-    socketUrl: 'wss://csr-serveur-backend.onrender.com',
     enableSockets: false
   }
 };

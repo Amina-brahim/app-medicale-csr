@@ -1,31 +1,13 @@
-// src/socket-fixed.js
-import { io } from 'socket.io-client';
+// src/socket.js - Socket.IO DÉSACTIVÉ
+console.log('🚫 Socket.IO désactivé - Mode API REST');
 
-// Forcer le polling pour Render
-const SOCKET_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://csr-serveur-backend.onrender.com'
-  : 'http://localhost:4600';
+export const socket = null;
 
-console.log('📡 Connexion Socket.IO (polling only) à:', SOCKET_URL);
-
-export const socket = io(SOCKET_URL, {
-  autoConnect: true,
-  reconnection: true,
-  reconnectionDelay: 1000,
-  reconnectionAttempts: 5,
-  transports: ['polling'], // Seulement polling
-  forceNew: true,
-  timeout: 10000
-});
-
-socket.on('connect', () => {
-  console.log('✅ Connecté au serveur Socket.IO (polling), ID:', socket.id);
-});
-
-socket.on('disconnect', (reason) => {
-  console.log('❌ Déconnecté. Raison:', reason);
-});
-
-socket.on('connect_error', (error) => {
-  console.error('❌ Erreur connexion:', error.message);
-});
+// Export pour compatibilité
+export const mockSocket = {
+  on: () => console.log('⚠️ Socket.IO désactivé'),
+  emit: () => console.log('⚠️ Socket.IO désactivé'),
+  disconnect: () => {},
+  connected: false,
+  id: null
+};
