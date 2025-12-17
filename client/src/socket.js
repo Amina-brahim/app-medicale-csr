@@ -1,21 +1,11 @@
 // client/src/socket.js
 import { io } from 'socket.io-client';
+import config from './config';
 
-// URL dynamique selon l'environnement
-let SOCKET_URL;
+console.log('📡 Connexion Socket.IO à:', config.socketUrl);
 
-if (process.env.NODE_ENV === 'development') {
-  // En développement : votre serveur local
-  SOCKET_URL = 'http://localhost:4600';
-} else {
-  // En production : utilisez la variable d'environnement ou désactivez si pas de backend
-  SOCKET_URL = process.env.REACT_APP_SOCKET_URL || null;
-}
-
-console.log('📡 Connexion Socket.IO à:', SOCKET_URL);
-
-// Créer et exporter l'instance socket SEULEMENT si une URL est configurée
-export const socket = SOCKET_URL ? io(SOCKET_URL, {
+// Créer et exporter l'instance socket SEULEMENT si activé
+export const socket = config.enableSockets ? io(config.socketUrl, {
   autoConnect: true,
   reconnection: true,
   reconnectionDelay: 1000,
@@ -37,5 +27,5 @@ if (socket) {
     console.error('❌ Erreur de connexion Socket.IO:', error.message);
   });
 } else {
-  console.log('ℹ️ Socket.IO désactivé (aucune URL configurée)');
+  console.log('ℹ️ Socket.IO désactivé');
 }
