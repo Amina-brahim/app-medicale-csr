@@ -27,5 +27,5 @@ if (socket) {
     console.error('❌ Erreur de connexion Socket.IO:', error.message);
   });
 } else {
-  console.log('ℹ️ Socket.IO désactivé');
+  console.log('ℹ️ Socket.IO désactivé (aucune URL configurée)');
 }

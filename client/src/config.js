@@ -2,7 +2,7 @@
 const config = {
   // Développement
   development: {
-    apiUrl: 'http://localhost:5000',
+    apiUrl: 'http://localhost:4600',
     socketUrl: 'http://localhost:4600',
     enableSockets: true
   },
@@ -17,7 +17,6 @@ const config = {
 const environment = process.env.NODE_ENV || 'development';
 const currentConfig = config[environment];
 
-// Log de configuration
-console.log(`⚙️ Configuration chargée: ${environment}`, currentConfig);
+console.log(`⚙️ Configuration: ${environment}`, currentConfig);
 
 export default currentConfig;
