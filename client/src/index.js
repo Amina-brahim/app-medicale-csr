@@ -31,6 +31,26 @@ root.render(
     <App />
   </React.StrictMode>
 );
+// Dans src/index.js ou votre composant principal
+window.checkConnection = async () => {
+  const endpoints = [
+    'http://localhost:5000/api/health',
+    'http://localhost:5000/',
+    '/api/health',
+    '/'
+  ];
+  
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint);
+      console.log(`✅ ${endpoint}: ${response.status}`);
+    } catch (error) {
+      console.log(`❌ ${endpoint}: ${error.message}`);
+    }
+  }
+};
+
+// Exécutez dans la console du navigateur : checkConnection()
 
 
 // If you want to start measuring performance in your app, pass a function

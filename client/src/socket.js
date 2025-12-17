@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   // En production : URL de votre serveur Render
   // ⚠️ REMPLACEZ par votre URL Render future
-  SOCKET_URL = 'https://votre-app-backend.onrender.com';
+  SOCKET_URL = 'https://app-medicale-csr.onrender.com';
 }
 
 console.log('📡 Connexion Socket.IO à:', SOCKET_URL);
